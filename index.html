@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional Resume Builder </title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-file-alt"></i>
+                    <div>
+                        <h1>ResumeBuilder</h1>
+                        <p class="tagline">Create professional resumes in minutes</p>
+                    </div>
+                </div>
+                <div class="header-actions">
+                    <button class="action-btn warning" id="resetBtn">
+                        <i class="fas fa-redo"></i> Reset Form
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="main-content">
+            <!-- Form Section -->
+            <section class="form-section">
+                <h2 class="section-title"><i class="fas fa-edit"></i> Build Your Resume</h2>
+                
+                <!-- Personal Information -->
+                <div class="form-group">
+                    <label for="fullName">Full Name</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-user"></i>
+                        <input type="text" id="fullName" placeholder="John Doe">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="jobTitle">Job Title / Profession</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-briefcase"></i>
+                        <input type="text" id="jobTitle" placeholder="Senior Software Engineer">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" id="email" placeholder="john.doe@example.com">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-phone"></i>
+                        <input type="tel" id="phone" placeholder="+1 (123) 456-7890">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="location">Location</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <input type="text" id="location" placeholder="New York, NY">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="summary">Professional Summary</label>
+                    <textarea id="summary" placeholder="Experienced professional with expertise in..."></textarea>
+                </div>
+                
+                <!-- Experience Section (Dynamic) -->
+                <div class="dynamic-section">
+                    <h3 class="section-title"><i class="fas fa-briefcase"></i> Work Experience</h3>
+                    <div id="experienceContainer">
+                        <!-- Experience items will be added here dynamically -->
+                    </div>
+                    <button class="add-btn" id="addExperienceBtn">
+                        <i class="fas fa-plus"></i> Add Experience
+                    </button>
+                </div>
+                
+                <!-- Education Section (Dynamic) -->
+                <div class="dynamic-section">
+                    <h3 class="section-title"><i class="fas fa-graduation-cap"></i> Education</h3>
+                    <div id="educationContainer">
+                        <!-- Education items will be added here dynamically -->
+                    </div>
+                    <button class="add-btn" id="addEducationBtn">
+                        <i class="fas fa-plus"></i> Add Education
+                    </button>
+                </div>
+                
+                <!-- Skills Section -->
+                <div class="form-group">
+                    <label for="skills">Skills (comma separated)</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-tools"></i>
+                        <input type="text" id="skills" placeholder="JavaScript, React, Node.js, Python, AWS">
+                    </div>
+                </div>
+                
+                <!-- Action Buttons -->
+                <div class="action-buttons">
+                    <button class="action-btn primary" id="updatePreviewBtn">
+                        <i class="fas fa-sync-alt"></i> Update Preview
+                    </button>
+                    <button class="action-btn success" id="saveResumeBtn">
+                        <i class="fas fa-save"></i> Save Resume
+                    </button>
+                    <button class="action-btn primary" id="downloadPdfBtn">
+                        <i class="fas fa-download"></i> Download PDF
+                    </button>
+                </div>
+            </section>
+            
+            <!-- Preview Section -->
+            <section class="preview-section">
+                <h2 class="section-title"><i class="fas fa-eye"></i> Live Preview</h2>
+                <div class="preview-container" id="resumePreview">
+                    <!-- Resume preview will be rendered here -->
+                    <div class="resume-header">
+                        <div class="personal-info">
+                            <h1 id="previewName">John Doe</h1>
+                            <h2 id="previewTitle">Senior Software Engineer</h2>
+                            <div class="contact-info">
+                                <p id="previewEmail">john.doe@example.com</p>
+                                <p id="previewPhone">+1 (123) 456-7890</p>
+                                <p id="previewLocation">New York, NY</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="resume-section">
+                        <h3 class="section-heading"><i class="fas fa-user"></i> Professional Summary</h3>
+                        <p id="previewSummary">Experienced software engineer with 8+ years in full-stack development. Specialized in JavaScript, React, Node.js, and cloud technologies. Proven track record of delivering scalable solutions.</p>
+                    </div>
+                    
+                    <div class="resume-section">
+                        <h3 class="section-heading"><i class="fas fa-briefcase"></i> Work Experience</h3>
+                        <div id="previewExperience">
+                            <div class="experience-item">
+                                <div class="item-header">
+                                    <div>
+                                        <div class="item-title">Senior Software Engineer</div>
+                                        <div class="item-subtitle">Tech Solutions Inc.</div>
+                                    </div>
+                                    <div class="item-duration">2019 - Present</div>
+                                </div>
+                                <div class="item-description">
+                                    <p>Led a team of 5 developers to build a customer management system using React and Node.js. Improved application performance by 40% through code optimization.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="resume-section">
+                        <h3 class="section-heading"><i class="fas fa-graduation-cap"></i> Education</h3>
+                        <div id="previewEducation">
+                            <div class="education-item">
+                                <div class="item-header">
+                                    <div>
+                                        <div class="item-title">Master of Computer Science</div>
+                                        <div class="item-subtitle">Stanford University</div>
+                                    </div>
+                                    <div class="item-duration">2016</div>
+                                </div>
+                                <div class="item-description">
+                                    <p>Specialized in Software Engineering and Machine Learning. Graduated with honors.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="resume-section">
+                        <h3 class="section-heading"><i class="fas fa-tools"></i> Skills</h3>
+                        <div class="skills-list" id="previewSkills">
+                            <span class="skill-tag">JavaScript</span>
+                            <span class="skill-tag">React</span>
+                            <span class="skill-tag">Node.js</span>
+                            <span class="skill-tag">Python</span>
+                            <span class="skill-tag">AWS</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+        
+        <!-- Tips Section -->
+        <div class="tips">
+            <h3><i class="fas fa-lightbulb"></i> Tips for a Great Resume</h3>
+            <div class="tips-list">
+                <div class="tip-item">
+                    <h4>Use Action Verbs</h4>
+                    <p>Start bullet points with strong action verbs like "Led", "Developed", "Implemented", "Managed".</p>
+                </div>
+                <div class="tip-item">
+                    <h4>Quantify Achievements</h4>
+                    <p>Use numbers to show impact: "Increased efficiency by 40%", "Reduced costs by $50K".</p>
+                </div>
+                <div class="tip-item">
+                    <h4>Tailor to Job</h4>
+                    <p>Customize your resume for each job application by including relevant keywords from the job description.</p>
+                </div>
+                <div class="tip-item">
+                    <h4>Keep It Concise</h4>
+                    <p>Limit your resume to 1-2 pages. Recruiters typically spend only 6-7 seconds on initial review.</p>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>ResumeBuilder  &copy; 2026 | Create, customize, and download professional resumes</p>
+            <p class="footer-note">Your data is automatically saved in your browser's local storage.</p>
+        </footer>
+    </div>
+    
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <i class="fas fa-check-circle"></i>
+        <span id="toastMessage">Resume saved successfully!</span>
+    </div>
+    
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"></div>
+        <p>Generating PDF, please wait...</p>
+    </div>
+
+    <script src="index.js"></script>
+</body>
+</html>
